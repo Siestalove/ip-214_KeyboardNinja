@@ -1,1 +1,1 @@
-# ip-214_KeyboardNinja.
+# KeyboardNinja. Клавиатурный тренажер
