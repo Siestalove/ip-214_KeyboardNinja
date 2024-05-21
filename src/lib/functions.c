@@ -64,11 +64,11 @@ void play_game(
 
     clear();
     printw("Точность: %.2f%%\n", accuracy);
-    printw("Потраченное время: %.0f:%02.0f\n", total_time / 60, fmod(total_time, 60));
+    printw("Потраченное время: %.0f:%02.0f\n",
+           total_time / 60,
+           fmod(total_time, 60));
     printw("Твои слова в минуту: %.2f\n", f_score);
-    printw("Правильно введенные слова: %d из %d\n",
-           correct_words,
-           num_rounds);
+    printw("Правильно введенные слова: %d из %d\n", correct_words, num_rounds);
     printw("Дата конца: %s", ctime(&end_time));
 
     update_high_score(score);
@@ -76,7 +76,6 @@ void play_game(
 
 void update_high_score(int f_score)
 {
-    
     int high_score = 0;
     FILE* fp = fopen("ninja_txt/highscore.txt", "r");
     if (fp != NULL) {
@@ -84,25 +83,20 @@ void update_high_score(int f_score)
         fclose(fp);
     }
 
-    
     if (f_score > high_score) {
-        
         high_score = f_score;
 
-        
         fp = fopen("ninja_txt/highscore.txt", "w");
         if (fp != NULL) {
             fprintf(fp, "%d", high_score);
             fclose(fp);
         }
 
-        
         printw("Новый рекорд: %d!\n", high_score);
     } else {
-        
         printw("Текущий рекорд: %d\n", high_score);
     }
-    
+
     printw("\nНажмите любую кнопку для выхода");
     getch();
 }

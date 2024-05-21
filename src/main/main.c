@@ -19,7 +19,7 @@ int main(void)
     }
     while (fgets(words[num_words], MAX_WORD_LENGTH, fp) != NULL) {
         int len = strlen(words[num_words]);
-        if (words[num_words][len - 1] == '\n'){
+        if (words[num_words][len - 1] == '\n') {
             words[num_words][len - 1] = '\0';
         }
         num_words++;
