@@ -2,12 +2,14 @@
 
 int main(void)
 {
+    setlocale(LC_ALL, "");
     initscr();
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
     init_pair(2, COLOR_WHITE, COLOR_BLACK);
     wbkgd(stdscr, COLOR_PAIR(2));
-    char words[MAX_NUM_WORDS][MAX_WORD_LENGTH], difficulty;
+    char words[MAX_NUM_WORDS][MAX_WORD_LENGTH];
+    wint_t difficulty;
     int num_words = 0;
     initscr();
     FILE* fp = fopen("ninja_txt/words.txt", "r");
@@ -35,8 +37,7 @@ int main(void)
         printw("4) Невозможная (длина слов 13+)\n");
         printw("5) Выйти\n");
         refresh();
-        difficulty = getch();
-        clear();
+        get_wch(&difficulty);
         switch (difficulty) {
         case '1':
             play_game(words, 3, 5, 25);

@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <wchar.h>
+#include <locale.h>
+#include <unistd.h>
+#include <ctype.h>
+#include <math.h>
 
 #define MAX_WORD_LENGTH 50
 #define MAX_NUM_WORDS 10000
