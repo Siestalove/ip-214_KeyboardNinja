@@ -12,3 +12,4 @@ void play_game(
         int min_len,
         int max_len,
         int num_rounds);
+void update_high_score(int score);

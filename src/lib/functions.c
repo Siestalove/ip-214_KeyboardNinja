@@ -71,6 +71,38 @@ void play_game(
            num_rounds);
     printw("Дата конца: %s", ctime(&end_time));
 
-   
+    update_high_score(score);
+}
 
+void update_high_score(int f_score)
+{
+    
+    int high_score = 0;
+    FILE* fp = fopen("ninja_txt/highscore.txt", "r");
+    if (fp != NULL) {
+        fscanf(fp, "%d", &high_score);
+        fclose(fp);
+    }
+
+    
+    if (f_score > high_score) {
+        
+        high_score = f_score;
+
+        
+        fp = fopen("ninja_txt/highscore.txt", "w");
+        if (fp != NULL) {
+            fprintf(fp, "%d", high_score);
+            fclose(fp);
+        }
+
+        
+        printw("Новый рекорд: %d!\n", high_score);
+    } else {
+        
+        printw("Текущий рекорд: %d\n", high_score);
+    }
+    
+    printw("\nНажмите любую кнопку для выхода");
+    getch();
 }
