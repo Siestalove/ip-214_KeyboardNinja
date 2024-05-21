@@ -1,6 +1,3 @@
-#include <ctype.h>
-#include <math.h>
-
 #include <lib/lib.h>
 
 void print_word(const char* word, const char* input)
