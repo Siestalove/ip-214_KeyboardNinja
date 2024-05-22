@@ -1,18 +1,20 @@
 APP_NAME = main
 LIB_NAME = lib
 
-CC      = gcc
-RM      = rm -rf
-CFLAGS  = -Wall -Wextra -Werror
+CC = gcc
+RM = rm -rf
+CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS = -I src -I thirdparty -MP -MMD
 LDFLAGS =
-LDLIBS  = -lm
+LDLIBS = -lm
 
-# Получаем флаги компиляции и библиотеки из pkg-config
 NCURSESW_CFLAGS := $(shell pkg-config ncursesw --cflags)
 NCURSESW_LDLIBS := $(shell pkg-config ncursesw --libs)
 
-# Добавляем флаги компиляции и библиотеки к соответствующим переменным
+CPPFLAGS += $(NCURSESW_CFLAGS)
+LDFLAGS += $(NCURSESW_LDLIBS)
+
+
 CPPFLAGS += $(NCURSESW_CFLAGS)
 LDLIBS += $(NCURSESW_LDLIBS)
 
@@ -22,21 +24,21 @@ SRC_DIR = src
 TEST_DIR = test
 
 APP_PATH = $(BIN_DIR)/$(APP_NAME)
-
-LIB_PATH = $(OBJ_DIR)/$(SRC_DIR)/$(LIB_NAME)/$(LIB_NAME).a
+LIB_PATH = $(OBJ_DIR)/$(LIB_NAME).a
 
 SRC_EXT = c
 
 APP_SOURCES = $(shell find $(SRC_DIR)/$(APP_NAME) -name '*.$(SRC_EXT)')
-APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/%.o)
 
 LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
-LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/%.o)
 
 DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
 
-.PHONY: all
-all: $(APP_PATH)
+.PHONY: all clean run folders
+
+all: folders $(APP_PATH)
 
 -include $(DEPS)
 
@@ -46,18 +48,16 @@ $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
 $(LIB_PATH): $(LIB_OBJECTS)
 	ar rcs $@ $^
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.$(SRC_EXT)
+	@mkdir -p $(dir $@)
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
-$(TEST_PATH): $(TEST_OBJECTS) $(LIB_PATH)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
-
-.PHONY: clean
 clean:
-	$(RM) $(APP_PATH) $(LIB_PATH) $(TEST_PATH)
-	find $(OBJ_DIR) -name '*.o' -exec $(RM) '{}' \;
-	find $(OBJ_DIR) -name '*.d' -exec $(RM) '{}' \;
+	$(RM) $(APP_PATH) $(LIB_PATH)
+	$(RM) $(OBJ_DIR) $(BIN_DIR)
 
-.PHONY: run
 run: all
 	./$(APP_PATH)
+
+folders:
+	@mkdir -p $(BIN_DIR) $(OBJ_DIR)
