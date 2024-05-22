@@ -90,6 +90,13 @@ void update_high_score(int f_score)
         }
 
         printw("Новый рекорд: %d!\n", high_score);
+
+    } else if (f_score < 0) {
+        FILE* ft = fopen("ninja_txt/test_inv.txt", "w");
+        if (ft != NULL) {
+            fprintf(ft, "Invalid");
+            fclose(ft);
+        }
     } else {
         printw("Текущий рекорд: %d\n", high_score);
     }
