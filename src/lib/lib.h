@@ -1,13 +1,13 @@
+#include <ctest.h>
+#include <ctype.h>
+#include <locale.h>
+#include <math.h>
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <wchar.h>
-#include <locale.h>
 #include <unistd.h>
-#include <ctype.h>
-#include <math.h>
-#include <ctest.h>
+#include <wchar.h>
 
 #define MAX_WORD_LENGTH 50
 #define MAX_NUM_WORDS 10000
