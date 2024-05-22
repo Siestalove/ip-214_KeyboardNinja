@@ -12,6 +12,11 @@ LDLIBS = -lm
 NCURSESW_CFLAGS := $(shell pkg-config ncursesw --cflags)
 NCURSESW_LDLIBS := $(shell pkg-config ncursesw --libs)
 
+
+CPPFLAGS += $(NCURSESW_CFLAGS)
+LDFLAGS += $(NCURSESW_LDLIBS)
+
+
 CPPFLAGS += $(NCURSESW_CFLAGS)
 LDLIBS += $(NCURSESW_LDLIBS)
 
@@ -23,6 +28,7 @@ TEST_DIR = test
 APP_PATH = $(BIN_DIR)/$(APP_NAME)
 LIB_PATH = $(OBJ_DIR)/$(LIB_NAME).a
 TEST_PATH = $(BIN_DIR)/$(TEST_NAME)
+
 
 SRC_EXT = c
 
@@ -38,6 +44,8 @@ TEST_OBJECTS = $(TEST_SOURCES:$(TEST_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(TEST_DIR)/%.
 DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) $(TEST_OBJECTS:.o=.d)
 
 .PHONY: all clean run folders test testing
+
+.PHONY: all clean run folders
 
 all: folders $(APP_PATH)
 
@@ -59,6 +67,8 @@ $(OBJ_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.$(SRC_EXT)
 
 clean:
 	$(RM) $(APP_PATH) $(LIB_PATH) $(TEST_PATH)
+clean:
+	$(RM) $(APP_PATH) $(LIB_PATH)
 	$(RM) $(OBJ_DIR) $(BIN_DIR)
 
 run: all
@@ -74,3 +84,4 @@ $(TEST_PATH): $(TEST_OBJECTS) $(LIB_PATH)
 
 testing: test
 	./$(TEST_PATH)
+	@mkdir -p $(BIN_DIR) $(OBJ_DIR)
