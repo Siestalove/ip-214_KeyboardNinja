@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <math.h>
+#include <ctest.h>
 
 #define MAX_WORD_LENGTH 50
 #define MAX_NUM_WORDS 10000

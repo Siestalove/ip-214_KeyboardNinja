@@ -1,7 +1,4 @@
-#include <ctest.h>
 #include <lib/lib.h>
-#include <math.h>
-#include <stdio.h>
 
 CTEST(update_high_score, invalid_input)
 {
